@@ -1,0 +1,27 @@
+Binaries
+DerivedDataCache
+Intermediate
+.vscode
+.vs
+.idea
+*.VC.db
+*.opensdf
+*.opendb
+*.sdf
+*.sln
+*.suo
+*.xcodeproj
+*.xcworkspace
+Build
+
+# Add this to not idea users
+*RiderLink*
+
+# enable automatic source control connection
+Saved/*
+!Saved/Config
+Saved/Config/*
+!Saved/Config/Windows
+Saved/Config/Windows/*
+!Saved/Config/Windows/SourceControlSettings.ini
+Art/Houdini/backup/*
