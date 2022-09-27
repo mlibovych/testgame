@@ -2,6 +2,8 @@
 
 
 #include "Components/SGHealthComponent.h"
+#include "Engine/World.h"
+#include "TimerManager.h"
 
 USGHealthComponent::USGHealthComponent()
 {
@@ -13,8 +15,7 @@ void USGHealthComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	Health = MaxHealth;
-	OnHealthChanged.Broadcast(Health);
+	SetHealth(MaxHealth);
 
 	if (AActor* ComponentOwner = GetOwner()) {
 		ComponentOwner->OnTakeAnyDamage.AddDynamic(this, &USGHealthComponent::OnTakeAnyDamageHandle);
@@ -27,15 +28,39 @@ void USGHealthComponent::OnTakeAnyDamageHandle(AActor* DamagedActor, float Damag
 	{
 		return;
 	}
+
+	if (GetWorld())
+	{
+		GetWorld()->GetTimerManager().ClearTimer(HealTimerHandle);
+	}
 	
-	Health = FMath::Clamp(Health - Damage, 0.0f, MaxHealth);
-	OnHealthChanged.Broadcast(Health);
+	SetHealth(Health - Damage);
 
 	if(IsDead())
 	{
 		OnDeath.Broadcast();
 	}
+	else if (AutoHeal && GetWorld())
+	{
+		GetWorld()->GetTimerManager().SetTimer(HealTimerHandle, this, &USGHealthComponent::HealUpdate, HealUpdateTime, true, HealDelay);
+	}
 		
+}
+
+void USGHealthComponent::HealUpdate()
+{
+	SetHealth(Health + HealModifier);
+
+	if (FMath::IsNearlyEqual(Health, MaxHealth) && GetWorld())
+	{
+		GetWorld()->GetTimerManager().ClearTimer(HealTimerHandle);
+	}
+}
+
+void USGHealthComponent::SetHealth(const float NewHealth)
+{
+	Health = FMath::Clamp(NewHealth, 0.0f, MaxHealth);
+	OnHealthChanged.Broadcast(Health);
 }
 
 

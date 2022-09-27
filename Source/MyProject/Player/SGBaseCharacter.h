@@ -40,6 +40,12 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category="Animation")
 	UAnimMontage* DeathAnimMontage;
+
+	UPROPERTY(EditDefaultsOnly, Category="Movement")
+	FVector2D LandedDamageVelocity = FVector2D(500.0f, 1600.0f);
+
+	UPROPERTY(EditDefaultsOnly, Category="Movement")
+	FVector2D LandedDamage = FVector2D(5.0f, 100.0f);
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
@@ -61,6 +67,9 @@ public:
 	
 	UFUNCTION(BlueprintCallable, Category="Life")
 	void OnHealthChanged(float Health);
+
+	UFUNCTION(BlueprintCallable, Category="Life")
+	void OnGroundLanded(const FHitResult& Hit);
 
 private:
 	bool WantsToRun {false};

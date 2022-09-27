@@ -39,6 +39,18 @@ void ASGBaseCharacter::BeginPlay()
 	HealthComponent->OnDeath.AddUObject(this, &ASGBaseCharacter::OnDeath);
 	HealthComponent->OnHealthChanged.AddUObject(this, &ASGBaseCharacter::OnHealthChanged);
 
+	LandedDelegate.AddDynamic(this, &ASGBaseCharacter::OnGroundLanded);
+}
+
+void ASGBaseCharacter::OnGroundLanded(const FHitResult& Hit)
+{
+	const auto FallVelocityZ = GetCharacterMovement()->Velocity.Z;
+
+	if (-FallVelocityZ < LandedDamageVelocity.X)
+		return;
+
+	const auto Damage = FMath::GetMappedRangeValueClamped(LandedDamageVelocity, LandedDamage, -FallVelocityZ);
+	TakeDamage(Damage, FDamageEvent{}, nullptr, nullptr);
 }
 
 void ASGBaseCharacter::OnDeath()
