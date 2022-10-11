@@ -12,7 +12,7 @@ public class MyProject : ModuleRules
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
 		
-		PublicIncludePaths.AddRange(new string[] { "MyProject",  "MyProject/Player", "MyProject/Components", "MyProject/Dev" });
+		PublicIncludePaths.AddRange(new string[] { "MyProject",  "MyProject/Player", "MyProject/Components", "MyProject/Dev", "MyProject/Weapons" });
 
 		// Uncomment if you are using Slate UI
 		// PrivateDependencyModuleNames.AddRange(new string[] { "Slate", "SlateCore" });

@@ -3,6 +3,7 @@
 
 #include "Player/SGBaseCharacter.h"
 
+#include "WeaponComponent.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Components/SGCharacterMovementComponent.h"
@@ -28,6 +29,8 @@ ASGBaseCharacter::ASGBaseCharacter(const FObjectInitializer &ObjInit) : Super(Ob
 
 	TextRenderComponent = CreateDefaultSubobject<UTextRenderComponent>("TextRenderComponent");
 	TextRenderComponent->SetupAttachment(GetRootComponent());
+
+	WeaponComponent = CreateDefaultSubobject<UWeaponComponent>("WeaponComponent");
 }
 
 // Called when the game starts or when spawned
@@ -88,6 +91,7 @@ void ASGBaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ASGBaseCharacter::Jump);
 	PlayerInputComponent->BindAction("Run", IE_Pressed, this, &ASGBaseCharacter::OnStartRunning);
 	PlayerInputComponent->BindAction("Run", IE_Released, this, &ASGBaseCharacter::OnStopRunning);
+	PlayerInputComponent->BindAction("Fire", IE_Pressed, WeaponComponent, &UWeaponComponent::Fire);
 }
 
 void ASGBaseCharacter::MoveForward(float Amount)
@@ -134,3 +138,5 @@ float ASGBaseCharacter::GetMovementDirection() const
 
 	return FMath::RadiansToDegrees(AngleBetween) * FMath::Sign(CrossProduct.Z);
 }
+
+

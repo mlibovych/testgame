@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "BaseWeaponActor.h"
 #include "SGHealthComponent.h"
 #include "Camera/CameraComponent.h"
 #include "Components/TextRenderComponent.h"
@@ -14,6 +15,8 @@ class UCameraComponent;
 class USpringArmComponent;
 class USGHealthComponent;
 class UTextRenderComponent;
+class ABaseWeaponActor;
+class UWeaponComponent;
 
 UCLASS()
 class MYPROJECT_API ASGBaseCharacter : public ACharacter
@@ -46,14 +49,15 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category="Movement")
 	FVector2D LandedDamage = FVector2D(5.0f, 100.0f);
-	// Called when the game starts or when spawned
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Weapon")
+	UWeaponComponent* WeaponComponent;
+	
 	virtual void BeginPlay() override;
 
 public:	
-	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	UFUNCTION(BlueprintCallable, Category="Movement")
