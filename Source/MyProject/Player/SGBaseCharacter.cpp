@@ -5,6 +5,7 @@
 
 #include "WeaponComponent.h"
 #include "Camera/CameraComponent.h"
+#include "Components/CapsuleComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Components/SGCharacterMovementComponent.h"
 #include "Components/SGHealthComponent.h"
@@ -65,6 +66,7 @@ void ASGBaseCharacter::OnDeath()
 	{
 		Controller->ChangeState(NAME_Spectating);
 	}
+	GetCapsuleComponent()->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
 }
 
 void ASGBaseCharacter::OnHealthChanged(float Health)

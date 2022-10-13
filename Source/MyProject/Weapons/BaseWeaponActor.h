@@ -22,6 +22,17 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Components")
 	USkeletalMeshComponent* SkeletalMeshComponent;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	FName MuzzleSocketName = "MuzzleSocket";
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	float TraceMaxLength = 1500.0f;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	float Damage = 30.0f;
+
 public:	
 	virtual void Fire();
+	
+	virtual void MakeShot();
 };
